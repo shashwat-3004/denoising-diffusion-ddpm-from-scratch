@@ -41,8 +41,18 @@ def extract_into_batch(a, t, x):
     elem = a[t]
     return elem.reshape(batch_size,1,1,1)
 
-# Step 5 - q_sample (not yet solved)
-# TODO: implement
+# Step 5 - q_sample
+import torch
+import torch.nn.functional as F
+
+def q_sample(x0, t, noise, alphas_cumprod):
+    # TODO: x_t = sqrt(bar_alpha_t) * x0 + sqrt(1 - bar_alpha_t) * noise
+    t_upd = t.reshape(x0.shape[0],1,1,1)
+
+    alpha_bar_t = alphas_cumprod[t_upd]
+
+    x_t = alpha_bar_t**0.5 * x0 + (1-alpha_bar_t)**0.5 * noise
+    return x_t
 
 # Step 6 - build_diffusion_schedule (not yet solved)
 # TODO: implement
